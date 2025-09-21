@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 import {
-    ActivityIndicator,
-    Text,
-    TextStyle,
-    View,
-    ViewStyle
-} from 'react-native';
-import { useMovieTheme } from '../../hooks/useMovieTheme';
+  ActivityIndicator,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native";
+import { useMovieTheme } from "@/hooks/useMovieTheme";
 
 interface LoadingSpinnerProps {
-  size?: 'small' | 'large';
+  size?: "small" | "large";
   color?: string;
   message?: string;
   style?: ViewStyle;
@@ -17,7 +17,7 @@ interface LoadingSpinnerProps {
 }
 
 export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
-  size = 'large',
+  size = "large",
   color,
   message,
   style,
@@ -27,47 +27,36 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
   const containerStyle: ViewStyle = {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: theme.spacing.lg,
   };
 
   const messageStyle: TextStyle = {
     ...theme.typography.body,
-    color: theme.colors.text,
+    color: theme.colors.darkPurple,
     marginTop: theme.spacing.md,
-    textAlign: 'center',
+    textAlign: "center",
   };
 
   return (
     <View style={[containerStyle, style]}>
-      <ActivityIndicator
-        size={size}
-        color={color || theme.colors.tint}
-      />
-      {message && (
-        <Text style={[messageStyle, textStyle]}>
-          {message}
-        </Text>
-      )}
+      <ActivityIndicator size={size} color={color || theme.colors.tint} />
+      {message && <Text style={[messageStyle, textStyle]}>{message}</Text>}
     </View>
   );
 };
 
-// Inline loading spinner for smaller spaces
 export const InlineLoadingSpinner: React.FC<{
-  size?: 'small' | 'large';
+  size?: "small" | "large";
   color?: string;
   style?: ViewStyle;
-}> = ({ size = 'small', color, style }) => {
+}> = ({ size = "small", color, style }) => {
   const theme = useMovieTheme();
 
   return (
     <View style={[{ padding: theme.spacing.sm }, style]}>
-      <ActivityIndicator
-        size={size}
-        color={color || theme.colors.tint}
-      />
+      <ActivityIndicator size={size} color={color || theme.colors.tint} />
     </View>
   );
 };

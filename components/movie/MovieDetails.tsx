@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Dimensions,
   ScrollView,
@@ -19,6 +19,15 @@ import { Text } from "../ui/Text";
 const { height } = Dimensions.get("window");
 const BACKDROP_HEIGHT = height * 0.6;
 
+// Constants
+const GENRE_COLORS = ["#20B2AA", "#FF69B4", "#9370DB", "#DAA520"] as const;
+const MAX_GENRES_DISPLAY = 4;
+const GRADIENT_COLORS = [
+  "transparent",
+  "rgba(0, 0, 0, 0.55)",
+  "rgba(0, 0, 0, 1)",
+] as const;
+
 interface MovieDetailsProps {
   movie: MovieDetail;
   trailerKey?: string | null;
@@ -27,115 +36,199 @@ interface MovieDetailsProps {
   loading?: boolean;
 }
 
+// Custom hooks
+const useMovieData = (movie: MovieDetail) => {
+  return useMemo(
+    () => ({
+      backdropUrl: getMovieImageUrl(movie.poster_path, "w780"),
+      formattedReleaseDate: formatDate(movie.release_date),
+      displayGenres: movie.genres?.slice(0, MAX_GENRES_DISPLAY) || [],
+    }),
+    [movie.poster_path, movie.release_date, movie.genres]
+  );
+};
+
+// Utility functions
+const getGenreColor = (index: number): string => {
+  return GENRE_COLORS[index % GENRE_COLORS.length];
+};
+
+// Sub-components
+const BackdropImage: React.FC<{ backdropUrl: string | null }> = ({
+  backdropUrl,
+}) => (
+  <>
+    {backdropUrl ? (
+      <Image
+        source={{ uri: backdropUrl }}
+        style={styles.backdrop}
+        contentFit="cover"
+      />
+    ) : (
+      <View style={[styles.backdrop, styles.fallbackBackdrop]} />
+    )}
+    <LinearGradient colors={GRADIENT_COLORS} style={styles.gradientOverlay} />
+  </>
+);
+
+const Header: React.FC = () => {
+  const handleBackPress = () => router.back();
+
+  return (
+    <View style={styles.header}>
+      <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
+        <Text style={styles.backButtonText}>‹</Text>
+      </TouchableOpacity>
+      <Text style={styles.headerTitle}>Watch</Text>
+      <View style={styles.headerSpacer} />
+    </View>
+  );
+};
+
+const MovieTitleOverlay: React.FC<{
+  title: string;
+  formattedReleaseDate: string;
+  trailerKey?: string | null;
+  onWatchTrailer?: () => void;
+  onBookTickets?: () => void;
+}> = ({
+  title,
+  formattedReleaseDate,
+  trailerKey,
+  onWatchTrailer,
+  onBookTickets,
+}) => (
+  <View style={styles.titleOverlay}>
+    <Text style={styles.movieTitle}>{title}</Text>
+    <Text style={styles.releaseDate}>In Theaters {formattedReleaseDate}</Text>
+    <ActionButtons
+      trailerKey={trailerKey}
+      onWatchTrailer={onWatchTrailer}
+      onBookTickets={onBookTickets}
+    />
+  </View>
+);
+
+const ActionButtons: React.FC<{
+  trailerKey?: string | null;
+  onWatchTrailer?: () => void;
+  onBookTickets?: () => void;
+}> = ({ trailerKey, onWatchTrailer, onBookTickets }) => (
+  <View style={styles.actionButtons}>
+    <Button title="Get Tickets" onPress={onBookTickets} />
+    {trailerKey && (
+      <Button
+        variant="outline"
+        title="▶   Watch Trailer"
+        onPress={onWatchTrailer}
+      />
+    )}
+  </View>
+);
+
+const GenreSection: React.FC<{
+  genres: Array<{ id: number; name: string }>;
+}> = ({ genres }) => {
+  if (!genres.length) return null;
+
+  return (
+    <>
+      <Text style={styles.sectionTitle}>Genres</Text>
+      <View style={styles.genresContainer}>
+        {genres.map((genre, index) => (
+          <GenreTag
+            key={genre.id}
+            name={genre.name}
+            color={getGenreColor(index)}
+          />
+        ))}
+      </View>
+    </>
+  );
+};
+
+const GenreTag: React.FC<{ name: string; color: string }> = ({
+  name,
+  color,
+}) => (
+  <View style={[styles.genreTag, { backgroundColor: color }]}>
+    <Text style={styles.genreText}>{name}</Text>
+  </View>
+);
+
+const SectionDivider: React.FC = () => <View style={styles.divider} />;
+
+const OverviewSection: React.FC<{ overview: string }> = ({ overview }) => (
+  <>
+    <Text style={styles.sectionTitle}>Overview</Text>
+    <Text style={styles.overview}>{overview}</Text>
+  </>
+);
+
+const HeroSection: React.FC<{
+  backdropUrl: string | null;
+  title: string;
+  formattedReleaseDate: string;
+  trailerKey?: string | null;
+  onWatchTrailer?: () => void;
+  onBookTickets?: () => void;
+}> = ({
+  backdropUrl,
+  title,
+  formattedReleaseDate,
+  trailerKey,
+  onWatchTrailer,
+  onBookTickets,
+}) => (
+  <View style={styles.heroSection}>
+    <BackdropImage backdropUrl={backdropUrl} />
+    <Header />
+    <MovieTitleOverlay
+      title={title}
+      formattedReleaseDate={formattedReleaseDate}
+      trailerKey={trailerKey}
+      onWatchTrailer={onWatchTrailer}
+      onBookTickets={onBookTickets}
+    />
+  </View>
+);
+
+const ContentSection: React.FC<{
+  displayGenres: Array<{ id: number; name: string }>;
+  overview: string;
+}> = ({ displayGenres, overview }) => (
+  <ScrollView
+    style={styles.contentCard}
+    showsVerticalScrollIndicator={false}
+    contentContainerStyle={styles.contentCardContent}
+  >
+    <GenreSection genres={displayGenres} />
+    {displayGenres.length > 0 && <SectionDivider />}
+    <OverviewSection overview={overview} />
+  </ScrollView>
+);
+
+// Main component
 export const MovieDetails: React.FC<MovieDetailsProps> = ({
   movie,
   trailerKey,
   onWatchTrailer,
   onBookTickets,
 }) => {
-  const backdropUrl = getMovieImageUrl(movie.poster_path, "w780");
-
-  const handleBackPress = () => {
-    router.back();
-  };
-
-  // Genre colors matching the design
-  const getGenreColor = (index: number) => {
-    const colors = ["#20B2AA", "#FF69B4", "#9370DB", "#DAA520"];
-    return colors[index % colors.length];
-  };
+  const { backdropUrl, formattedReleaseDate, displayGenres } =
+    useMovieData(movie);
 
   return (
     <View style={styles.container}>
-      {/* Hero Section with Backdrop */}
-      <View style={styles.heroSection}>
-        {backdropUrl ? (
-          <Image
-            source={{ uri: backdropUrl }}
-            style={styles.backdrop}
-            contentFit="cover"
-          />
-        ) : (
-          <View style={[styles.backdrop, { backgroundColor: "#444" }]} />
-        )}
-
-        {/* Gradient Overlay */}
-        <LinearGradient
-          colors={["transparent", "rgba(0, 0, 0, 0.55)", "rgba(0, 0, 0, 1)"]}
-          style={styles.gradientOverlay}
-        />
-
-        {/* Header with Back Button */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
-            <Text style={styles.backButtonText}>‹</Text>
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Watch</Text>
-          <View style={styles.headerSpacer} />
-        </View>
-
-        {/* Movie Title Overlay */}
-        <View style={styles.titleOverlay}>
-          <Text style={styles.movieTitle}>{movie.title}</Text>
-          <Text style={styles.releaseDate}>
-            In Theaters {formatDate(movie.release_date)}
-          </Text>
-
-          {/* Action Buttons */}
-          <View style={styles.actionButtons}>
-            <Button title="Get Tickets" onPress={onBookTickets} />
-
-            {trailerKey && (
-              <Button
-                variant="outline"
-                title="▶   Watch Trailer"
-                onPress={onWatchTrailer}
-              />
-            )}
-          </View>
-        </View>
-      </View>
-
-      {/* Scrollable White Content Card */}
-      <ScrollView
-        style={styles.contentCard}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentCardContent}
-      >
-        {/* Genre Tags */}
-        {movie.genres && movie.genres.length > 0 && (
-          <>
-            <Text style={styles.sectionTitle}>Genres</Text>
-            <View style={styles.genresContainer}>
-              {movie.genres.slice(0, 4).map((genre, index) => (
-                <View
-                  key={genre.id}
-                  style={[
-                    styles.genreTag,
-                    { backgroundColor: getGenreColor(index) },
-                  ]}
-                >
-                  <Text style={styles.genreText}>{genre.name}</Text>
-                </View>
-              ))}
-            </View>
-          </>
-        )}
-
-        <View
-          style={{
-            width: "100%",
-            height: 0.5,
-            backgroundColor: "#000",
-            opacity: 0.3,
-            marginVertical: 18,
-          }}
-        />
-
-        {/* Overview Section */}
-        <Text style={styles.sectionTitle}>Overview</Text>
-        <Text style={styles.overview}>{movie.overview}</Text>
-      </ScrollView>
+      <HeroSection
+        backdropUrl={backdropUrl}
+        title={movie.title}
+        formattedReleaseDate={formattedReleaseDate}
+        trailerKey={trailerKey}
+        onWatchTrailer={onWatchTrailer}
+        onBookTickets={onBookTickets}
+      />
+      <ContentSection displayGenres={displayGenres} overview={movie.overview} />
     </View>
   );
 };
@@ -151,6 +244,9 @@ const styles = StyleSheet.create({
   backdrop: {
     width: "100%",
     height: "100%",
+  },
+  fallbackBackdrop: {
+    backgroundColor: "#444",
   },
   gradientOverlay: {
     position: "absolute",
@@ -222,38 +318,6 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 12,
   },
-  getTicketsButton: {
-    backgroundColor: "#4A90E2",
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 25,
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  getTicketsText: {
-    color: "white",
-    fontSize: 16,
-    fontFamily: "Poppins_600SemiBold",
-  },
-  watchTrailerButton: {
-    backgroundColor: "#5A5A5A",
-    paddingVertical: 14,
-    paddingHorizontal: 32,
-    borderRadius: 25,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-  },
-  playIcon: {
-    color: "white",
-    fontSize: 14,
-  },
-  watchTrailerText: {
-    color: "white",
-    fontSize: 16,
-    fontFamily: "Poppins_600SemiBold",
-  },
   contentCard: {
     backgroundColor: "white",
     borderTopLeftRadius: 20,
@@ -266,7 +330,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 40,
   },
-
   sectionTitle: {
     fontSize: 16,
     fontFamily: "Poppins_500Medium",
@@ -286,6 +349,13 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 14,
     fontFamily: "Poppins_600SemiBold",
+  },
+  divider: {
+    width: "100%",
+    height: 0.5,
+    backgroundColor: "#000",
+    opacity: 0.3,
+    marginVertical: 18,
   },
   overview: {
     fontSize: 12,

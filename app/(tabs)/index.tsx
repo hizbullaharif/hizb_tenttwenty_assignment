@@ -95,10 +95,4 @@ const getStyles = (theme) =>
       justifyContent: "space-between",
       backgroundColor: theme.colors.White,
     },
-    statsContainer: {
-      paddingHorizontal: 16,
-      paddingVertical: 8,
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: "#e0e0e0",
-    },
   });

@@ -24,7 +24,7 @@ interface TabIconProps {
 
 const TabIcon: React.FC<TabIconProps> = ({ name, color, size = 24 }) => {
   const IconComponent = TAB_ICONS[name];
-  return <IconComponent width={size} height={size} color={color} />;
+  return <IconComponent color={color} />;
 };
 
 export default function TabLayout() {
