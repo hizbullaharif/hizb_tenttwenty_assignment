@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   },
   seatText: {
     fontSize: 10,
-    fontWeight: 'bold',
+    fontFamily: 'Poppins_700Bold',
   },
   legend: {
     flexDirection: 'row',

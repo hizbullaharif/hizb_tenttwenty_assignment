@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
   },
   movieTitle: {
     fontSize: 16,
-    fontWeight: "600",
+    fontFamily: "Poppins_600SemiBold",
     color: "#1a1a1a",
     marginBottom: 4,
     paddingRight: 5,
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   movieGenre: {
     fontSize: 14,
     color: "#666",
-    fontWeight: "400",
+    fontFamily: "Poppins",
   },
   moreOptions: {
     width: 24,
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
   moreDots: {
     fontSize: 18,
     color: "#007AFF",
-    fontWeight: "bold",
+    fontFamily: "Poppins_700Bold",
     transform: [{ rotate: "90deg" }],
   },
   searchResultsContainer: {
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
   },
   resultsTitle: {
     fontSize: 20,
-    fontWeight: "700",
+    fontFamily: "Poppins_700Bold",
     color: "#1a1a1a",
     marginBottom: 8,
   },
@@ -391,6 +391,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 16,
     fontSize: 16,
+    fontFamily: "Poppins",
     color: "#666",
     textAlign: "center",
   },
@@ -423,7 +424,7 @@ const styles = StyleSheet.create({
   genreTitle: {
     color: "white",
     fontSize: 16,
-    fontWeight: "700",
+    fontFamily: "Poppins_700Bold",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 3,
   },
@@ -444,13 +445,14 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 20,
-    fontWeight: "600",
+    fontFamily: "Poppins_600SemiBold",
     color: "#333",
     marginBottom: 8,
     textAlign: "center",
   },
   emptyText: {
     fontSize: 16,
+    fontFamily: "Poppins",
     color: "#666",
     textAlign: "center",
     lineHeight: 24,

@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: "#1F2937",
-    fontWeight: "400",
+    fontFamily: "Poppins",
     paddingVertical: 0,
     paddingHorizontal: 0,
   },
@@ -146,6 +146,6 @@ const styles = StyleSheet.create({
   clearIconText: {
     fontSize: 14,
     color: "#6B7280",
-    fontWeight: "500",
+    fontFamily: "Poppins_500Medium",
   },
 });

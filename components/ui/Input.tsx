@@ -37,7 +37,7 @@ export const Input: React.FC<InputProps> = ({
     ...theme.typography.bodySmall,
     color: theme.colors.text,
     marginBottom: theme.spacing.xs,
-    fontWeight: '500',
+    fontFamily: 'Poppins_500Medium',
   };
 
   const inputStyles: TextStyle = {

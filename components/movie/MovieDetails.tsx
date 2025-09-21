@@ -180,14 +180,14 @@ const styles = StyleSheet.create({
   backButtonText: {
     color: "white",
     fontSize: 28,
-    fontWeight: "bold",
+    fontFamily: "Poppins_700Bold",
     lineHeight: 30,
   },
   headerTitle: {
     textAlign: "center",
     color: "white",
     fontSize: 18,
-    fontWeight: "600",
+    fontFamily: "Poppins_600SemiBold",
     marginLeft: 12,
   },
   headerSpacer: {
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   movieTitle: {
     color: "#DAA520",
     fontSize: 32,
-    fontWeight: "bold",
+    fontFamily: "Poppins_700Bold",
     textAlign: "center",
     marginBottom: 8,
     textShadowColor: "rgba(0, 0, 0, 0.8)",
@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
   releaseDate: {
     color: "white",
     fontSize: 16,
+    fontFamily: "Poppins",
     marginBottom: 24,
     textAlign: "center",
   },
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
   getTicketsText: {
     color: "white",
     fontSize: 16,
-    fontWeight: "600",
+    fontFamily: "Poppins_600SemiBold",
   },
   watchTrailerButton: {
     backgroundColor: "#5A5A5A",
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
   watchTrailerText: {
     color: "white",
     fontSize: 16,
-    fontWeight: "600",
+    fontFamily: "Poppins_600SemiBold",
   },
   contentCard: {
     backgroundColor: "white",
@@ -268,7 +269,7 @@ const styles = StyleSheet.create({
 
   sectionTitle: {
     fontSize: 16,
-    fontWeight: "500",
+    fontFamily: "Poppins_500Medium",
     color: "#202C43",
     marginBottom: 12,
   },
@@ -284,12 +285,12 @@ const styles = StyleSheet.create({
   genreText: {
     color: "white",
     fontSize: 14,
-    fontWeight: "600",
+    fontFamily: "Poppins_600SemiBold",
   },
   overview: {
     fontSize: 12,
     lineHeight: 16,
-    fontWeight: "400",
+    fontFamily: "Poppins",
     color: "#8F8F8F",
   },
 });

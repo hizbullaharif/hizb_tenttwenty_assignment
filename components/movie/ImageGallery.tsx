@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   overlayText: {
     color: '#FFFFFF',
-    fontWeight: 'bold',
+    fontFamily: 'Poppins_700Bold',
   },
   modalContainer: {
     flex: 1,

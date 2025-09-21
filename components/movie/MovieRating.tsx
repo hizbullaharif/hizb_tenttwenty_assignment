@@ -46,21 +46,21 @@ export const MovieRating: React.FC<MovieRatingProps> = ({
     switch (size) {
       case 'small':
         return {
-          ratingText: { fontSize: 12 },
-          starsText: { fontSize: 14 },
-          voteText: { fontSize: 10 },
+          ratingText: { ...theme.typography.caption },
+          starsText: { ...theme.typography.bodySmall },
+          voteText: { ...theme.typography.caption, fontSize: 10 },
         };
       case 'large':
         return {
-          ratingText: { fontSize: 20 },
-          starsText: { fontSize: 22 },
-          voteText: { fontSize: 14 },
+          ratingText: { ...theme.typography.h4 },
+          starsText: { ...theme.typography.h4, fontSize: 22 },
+          voteText: { ...theme.typography.bodySmall },
         };
       default: // medium
         return {
-          ratingText: { fontSize: 16 },
-          starsText: { fontSize: 18 },
-          voteText: { fontSize: 12 },
+          ratingText: { ...theme.typography.body },
+          starsText: { ...theme.typography.body, fontSize: 18 },
+          voteText: { ...theme.typography.caption },
         };
     }
   };
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   stars: {
-    fontFamily: 'System', // Use system font for consistent star rendering
+    fontFamily: 'Poppins', // Use Poppins for consistent star rendering
   },
   voteCount: {
     marginTop: 2,
@@ -169,6 +169,6 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     color: '#FFFFFF',
-    fontWeight: '600',
+    fontFamily: 'Poppins_600SemiBold',
   },
 });

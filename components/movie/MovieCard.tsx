@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: "700",
+    fontFamily: "Poppins_700Bold",
     color: "#fff",
     lineHeight: 20,
     textShadowColor: "rgba(0, 0, 0, 0.8)",
