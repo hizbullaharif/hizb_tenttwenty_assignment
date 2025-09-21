@@ -3,22 +3,16 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 import DashboardIcon from "@/assets/svg/dashboardIcon";
-import MediaIcon from "@/assets/svg/medialibraryIcon";
 import MoreIcon from "@/assets/svg/More";
-import WatchIcon from "@/assets/svg/Watch";
 import { useMovieTheme } from "@/hooks/useMovieTheme";
 
 const TAB_ICONS = {
   dashboard: DashboardIcon,
-  watch: WatchIcon,
-  library: MediaIcon,
   more: MoreIcon,
 } as const;
 
 const TAB_SCREENS = [
   { name: "index", title: "Dashboard", icon: "dashboard" },
-  { name: "watch", title: "Watch", icon: "watch" },
-  { name: "MediaLibrary", title: "Media Library", icon: "library" },
   { name: "More", title: "More", icon: "more" },
 ] as const;
 
@@ -37,11 +31,11 @@ export default function TabLayout() {
   const theme = useMovieTheme();
 
   const screenOptions = {
-    tabBarActiveTintColor: theme.colors.background,
-    tabBarInactiveTintColor: theme.colors.tabIconDefault,
+    tabBarActiveTintColor: theme.colors.White,
+    tabBarInactiveTintColor: theme.colors.gray,
     tabBarStyle: [
       styles.tabBarStyle,
-      { backgroundColor: theme.colors.tabBackground },
+      { backgroundColor: theme.colors.darkPurple },
     ],
     tabBarLabelStyle: styles.tabBarLabelStyle,
     tabBarItemStyle: styles.tabBarItemStyle,

@@ -1,1 +1,1 @@
-export * from './useFavorites';
+// No mutation hooks currently in use

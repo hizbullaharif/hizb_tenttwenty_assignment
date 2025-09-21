@@ -46,7 +46,7 @@ export const MovieDetails: React.FC<MovieDetailsProps> = ({
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: "#2E2739" }]}>
+    <View style={styles.container}>
       {/* Hero Section with Backdrop */}
       <View style={styles.heroSection}>
         {backdropUrl ? (
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 28,
     fontFamily: "Poppins_700Bold",
-    lineHeight: 30,
+    lineHeight: 34,
   },
   headerTitle: {
     textAlign: "center",
