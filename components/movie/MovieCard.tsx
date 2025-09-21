@@ -22,7 +22,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress }) => {
     }
   };
 
-  const posterUrl = getMovieImageUrl(movie.poster_path, "w342");
+  const posterUrl = getMovieImageUrl(movie.poster_path, "w780");
 
   return (
     <TouchableOpacity

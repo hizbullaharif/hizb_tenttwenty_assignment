@@ -12,6 +12,7 @@ import { formatErrorMessage } from "@/utils/helpers";
 
 export default function MoviesScreen() {
   const theme = useMovieTheme();
+  const styles = getStyles(theme);
   const insets = useSafeAreaInsets();
 
   const {
@@ -44,8 +45,6 @@ export default function MoviesScreen() {
   const toggleViewMode = () => {
     router.push("/More");
   };
-
-  const styles = getStyles(theme);
 
   const Header = () => (
     <View

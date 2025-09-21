@@ -1,14 +1,14 @@
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
-import { MovieDetails } from "../../components/movie/MovieDetails";
-import { ErrorMessage } from "../../components/ui/ErrorMessage";
-import { LoadingSpinner } from "../../components/ui/LoadingSpinner";
-import { useMovieDetails } from "../../hooks/queries/useMovieDetails";
-import { useMovieTrailer } from "../../hooks/queries/useMovieVideos";
-import { useMovieTheme } from "../../hooks/useMovieTheme";
-import { formatErrorMessage } from "../../utils/helpers";
+import { MovieDetails } from "@/components/movie/MovieDetails";
+import { ErrorMessage } from "@/components/ui/ErrorMessage";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { useMovieDetails } from "@/hooks/queries/useMovieDetails";
+import { useMovieTrailer } from "@/hooks/queries/useMovieVideos";
+import { useMovieTheme } from "@/hooks/useMovieTheme";
+import { formatErrorMessage } from "@/utils/helpers";
 
 export default function MovieDetailScreen() {
   const theme = useMovieTheme();
@@ -20,7 +20,7 @@ export default function MovieDetailScreen() {
 
   const containerStyle = {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.gray,
   };
 
   if (isLoading) {
@@ -69,5 +69,3 @@ export default function MovieDetailScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({});

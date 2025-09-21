@@ -1,18 +1,12 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 
-import { useMovieTheme } from "@/hooks/useMovieTheme";
 import { queryClient } from "@/lib/react-query";
+import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -56,13 +50,6 @@ const useAppInitialization = () => {
   return { fontsLoaded };
 };
 
-const createNavigationTheme = (isDark: boolean) => ({
-  ...(isDark ? DarkTheme : DefaultTheme),
-  colors: {
-    ...(isDark ? DarkTheme.colors : DefaultTheme.colors),
-  },
-});
-
 const AppStack = () => (
   <Stack>
     <Stack.Screen name="(tabs)" options={SCREEN_OPTIONS.tabs} />
@@ -80,21 +67,16 @@ const AppStack = () => (
 );
 
 export default function RootLayout() {
-  const theme = useMovieTheme();
   const { fontsLoaded } = useAppInitialization();
 
   if (!fontsLoaded) {
     return null;
   }
 
-  const navigationTheme = createNavigationTheme(theme.isDark);
-
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={navigationTheme}>
-        <AppStack />
-        <StatusBar style={theme.isDark ? "light" : "dark"} />
-      </ThemeProvider>
+      <StatusBar style="auto" />
+      <AppStack />
     </QueryClientProvider>
   );
 }
